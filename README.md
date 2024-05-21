@@ -14,7 +14,7 @@ Motif Exploration: Identification of essential regulatory motifs.
 **Scripts and Code:** For performing tissue-specific module network analysis, gene co-expression module inference, bipartite network construction, and motif exploration.
 Figure 1: Visual representation of the analysis workflow.
 
-**Objective: **This project aims to deepen the understanding of bHLH transcription factor roles in tomato-PSTVd interactions and provides valuable insights into the regulatory dynamics underlying plant defense mechanisms.
+**Objective** This project aims to deepen the understanding of bHLH transcription factor roles in tomato-PSTVd interactions and provides valuable insights into the regulatory dynamics underlying plant defense mechanisms.
 
 
 <img width="717" alt="Screenshot 2024-05-20 at 7 41 03 PM" src="https://github.com/kap8416/Dynamic-coexpression-modular-analysis-BHLH-in-PSTVD-tomato/assets/68921776/8ddcceea-00cd-4090-ab59-90ee25586fa0">
