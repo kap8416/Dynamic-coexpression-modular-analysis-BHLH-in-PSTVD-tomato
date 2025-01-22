@@ -1,0 +1,48 @@
+#############CORTO TOMATO-VIROID#########
+#By: Octavio Zambada
+#Date: 09/01/2021
+
+####Libraries####
+library(corto)
+library(affy)
+library(GEOquery)
+
+
+##Set working directory
+path <- "C:/Users/octav/OneDrive/Escritorio/Tomato_viroid_project"
+setwd(path)
+
+#Load tissue specific gene expression matrix
+Matrix_RMA_ID_prom_leaf <- read.delim("C:/Users/octav/OneDrive/Escritorio/Tomato_viroid_project/Matrix_RMA_ID_prom_leaf.txt", row.names=1)
+
+inmat2=Matrix_RMA_ID_prom_leaf
+
+#Load TFs list
+Sly_TFs<-read.table("Tomato_TFs.txt", stringsAsFactors = FALSE)
+Sly_TFs<-Sly_TFs[[1]]
+
+#Mantain only the TFs present in the Gene expression matrix
+centroids_Sly <- Sly_TFs[Sly_TFs %in% rownames(inmat2)]
+
+#Infere GRN
+regulon <- corto(inmat = inmat2, 
+                 centroids = centroids_Sly, 
+                 nbootstraps = 100, 
+                 p = 1e-7, 
+                 nthreads=8)
+
+#Obtain regulons GRN
+regulon2sif <- function(regulon){
+  sif <- data.frame(TF = c(), target = c(), interaction = c())
+  for (name in names(regulon)) {
+    source = rep(name, length(regulon[[name]]$tfmod));
+    psif    = cbind(source, names(regulon[[name]]$tfmod), regulon[[name]]$tfmod);
+    sif <- rbind(sif, psif)}
+  colnames(sif) <- c("TF", "target", "int")
+  rownames(sif) <- NULL
+  return(sif)
+}
+#Obtain leaf GRN
+GRN <- regulon2sif(regulon)
+write.table (GRN, file= "net_corto_leafonly.txt", col.names = FALSE, row.names = FALSE, quote = FALSE, sep = "\t")
+
